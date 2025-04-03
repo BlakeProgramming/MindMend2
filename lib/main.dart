@@ -39,6 +39,8 @@ void main() {
 }
 
 class MindMendApp extends StatelessWidget {
+  const MindMendApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -52,6 +54,8 @@ String? storedUser;
 String? storedPassword;
 
 class SignInScreen extends StatefulWidget {
+  const SignInScreen({super.key});
+
   @override
   _SignInScreenState createState() => _SignInScreenState();
 }
@@ -85,12 +89,12 @@ class _SignInScreenState extends State<SignInScreen> {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: _signIn,
-              child: Text('LOGIN', style: TextStyle(fontSize: 18)),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blueAccent,
                 padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
               ),
+              child: Text('LOGIN', style: TextStyle(fontSize: 18)),
             ),
             TextButton(
               onPressed: () {
@@ -122,6 +126,8 @@ class _SignInScreenState extends State<SignInScreen> {
 }
 
 class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
+
   @override
   _SignUpScreenState createState() => _SignUpScreenState();
 }
@@ -156,12 +162,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: _signUp,
-              child: Text('SIGN UP', style: TextStyle(fontSize: 18)),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blueAccent,
                 padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
               ),
+              child: Text('SIGN UP', style: TextStyle(fontSize: 18)),
             ),
           ],
         ),
@@ -187,6 +193,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
 }
 
 class ActivityCenter extends StatelessWidget {
+  const ActivityCenter({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,0 +1,13 @@
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+
+// Suggested code may be subject to a license. Learn more: ~LicenseLog:4253716860.
+// Suggested code may be subject to a license. Learn more: ~LicenseLog:1676887729.
+class SignInScreen extends StatelessWidget {
+// Suggested code may be subject to a license. Learn more: ~LicenseLog:3082517764.
+  const SignInScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold()};
