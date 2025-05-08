@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/activity_center.dart';
-import 'package:myapp/dashboard_p5.dart';
-import 'package:myapp/sign_in_screen.dart';
-import 'package:myapp/sudoku.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:myapp/sign_in_screen.dart';
+// import 'package:myapp/sudoku.dart';
 import 'firebase_options.dart';
-import 'Gemini.dart';
+import 'gradient_theme.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,8 +21,28 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'MindMend App',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: ActivityCenter(),
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        extensions: <ThemeExtension<dynamic>>[
+          GradientTheme(
+            containerGradient: const LinearGradient(
+              colors: [Color(0xFF7B60D1), Color(0xFF4A148C)],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+        ),
+      ],
+      ),
+      home: SignInScreen(),
     );
   }
 }
+
+/*theme: ThemeData(
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: Colors.deepPurple,
+      primary: Colors.deepPurple,
+      secondary: Colors.amber,
+      surface: Colors.white,
+      background: Colors.grey[200]!,
+    ), */

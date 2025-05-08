@@ -27,7 +27,7 @@ class _GeminiChatState extends State<GeminiChat> {
     var request = http.Request(
       'POST',
       Uri.parse(
-        'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=$GEMINI_API_KEY',
+        'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=$geminiApiKey',
       ),
     );
 
@@ -37,7 +37,7 @@ class _GeminiChatState extends State<GeminiChat> {
         {
           "parts": [
             {
-              "text": userMessage + " (ensure your response reflects that of a therapist. Do not let messages exceed 2500 characters. Do not repeat prompt before responding. If specifically asked, offer ways to help.)", // User message input
+              "text: $userMessage  (ensure your response reflects that of a therapist. Do not let messages exceed 2500 characters. Do not repeat prompt before responding. If specifically asked, offer ways to help.)", // User message input
             },
           ],
         },
@@ -74,7 +74,7 @@ class _GeminiChatState extends State<GeminiChat> {
       } else {
         // Handle error if the response status is not 200
         String errorBody = await response.stream.bytesToString();
-        print("Error response: $errorBody");
+        ("Error response: $errorBody");
 
         setState(() {
           messages.add({
@@ -106,8 +106,8 @@ class _GeminiChatState extends State<GeminiChat> {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Color(0xFF2C003E), // Deep purple
-                  Color(0xFF4B006E), // Slightly lighter purple
+                  Color(0xFF7B60D1), // Deep purple
+                  Color(0xFF4A148C), // Slightly lighter purple
                 ],
               ),
             ),
@@ -159,7 +159,7 @@ class _GeminiChatState extends State<GeminiChat> {
                             decoration: BoxDecoration(
                               color: isUser
                                   ? Colors.purple[200]
-                                  : Colors.white.withOpacity(0.85),
+                                  : Colors.white.withValues(),
                               borderRadius: BorderRadius.only(
                                 topLeft: const Radius.circular(16),
                                 topRight: const Radius.circular(16),

@@ -11,7 +11,7 @@ class BackToActivityCenterButton extends StatelessWidget {
       onPressed: () {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const ActivityCenter()),
+          MaterialPageRoute(builder: (context) => ActivityCenter()),
         );
       },
     );

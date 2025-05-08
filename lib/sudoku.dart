@@ -1,14 +1,18 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import 'package:myapp/back_button_to_activity_center.dart'; // Import the back button
+import 'back_button_to_activity_center.dart';
+// Import the back button
+import 'gradient_theme.dart';
 
 class SudokuScreen extends StatefulWidget {
+  const SudokuScreen({super.key});
+
   @override
-  _SudokuScreenState createState() => _SudokuScreenState();
+  SudokuScreenState createState() => SudokuScreenState();
 }
 
-class _SudokuScreenState extends State<SudokuScreen> {
+class SudokuScreenState extends State<SudokuScreen> {
   List<List<String>> board = List.generate(
     9,
     (_) => List.generate(9, (_) => ''),
@@ -205,173 +209,192 @@ class _SudokuScreenState extends State<SudokuScreen> {
     gridSize = gridSize.clamp(300.0, 360.0);
     double cellSize = gridSize / 9;
 
+    final gradient =
+        Theme.of(context).extension<GradientTheme>()!.containerGradient;
+
     return Scaffold(
-      backgroundColor: Colors.purple[900],
-      appBar: AppBar(
-        backgroundColor: Colors.purple[900],
-        elevation: 0,
-        leading: BackToActivityCenterButton(), // Add the back button here
+      appBar: PreferredSize(
+      preferredSize: const Size.fromHeight(kToolbarHeight),
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: gradient, // Your gradient here
+        ),
+        child: AppBar(
+          backgroundColor: Colors.transparent, // Needed to show the gradient
+          elevation: 0,
+          leading: BackToActivityCenterButton(), // 🟣 Custom back button
+        ),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "MindMend",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Text(
-              "Sudoku",
-              style: TextStyle(color: Colors.white70, fontSize: 18),
-            ),
-            SizedBox(height: 20),
-            Container(
-              width: gridSize,
-              height: gridSize,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [BoxShadow(blurRadius: 6, color: Colors.black26)],
-              ),
-              child: Column(
-                children: List.generate(9, (row) {
-                  return Row(
-                    children: List.generate(9, (col) {
-                      bool isSelected =
-                          selectedRow == row && selectedCol == col;
-                      bool isConflictCell =
-                          board[row][col] != '' &&
-                          isConflict(row, col, board[row][col]);
-                      return GestureDetector(
-                        onTap: () => selectCell(row, col),
-                        child: Container(
-                          width: cellSize,
-                          height: cellSize,
-                          decoration: BoxDecoration(
-                            border: Border(
-                              top: BorderSide(
-                                color: Colors.black,
-                                width: row % 3 == 0 ? 1.5 : 0.5,
-                              ),
-                              left: BorderSide(
-                                color: Colors.black,
-                                width: col % 3 == 0 ? 1.5 : 0.5,
-                              ),
-                              right: BorderSide(
-                                color: Colors.black,
-                                width: (col + 1) % 3 == 0 ? 1.5 : 0.5,
-                              ),
-                              bottom: BorderSide(
-                                color: Colors.black,
-                                width: (row + 1) % 3 == 0 ? 1.5 : 0.5,
-                              ),
-                            ),
-                            color:
-                                isConflictCell
-                                    ? Colors.red[100]
-                                    : isSelected
-                                    ? Colors.purple[100]
-                                    : Colors.white,
-                          ),
-                          child: Stack(
-                            children: [
-                              Center(
-                                child: Text(
-                                  board[row][col],
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color:
-                                        fixedCells[row][col]
-                                            ? Colors.black
-                                            : Colors.blue,
-                                  ),
-                                ),
-                              ),
-                              if (board[row][col] == '' &&
-                                  notes[row][col].isNotEmpty)
-                                Padding(
-                                  padding: const EdgeInsets.all(4.0),
-                                  child: Align(
-                                    alignment: Alignment.topLeft,
-                                    child: Wrap(
-                                      spacing: 2,
-                                      runSpacing: 2,
-                                      children:
-                                          notes[row][col].map((note) {
-                                            return Text(
-                                              note,
-                                              style: TextStyle(
-                                                fontSize: 10,
-                                                color: Colors.grey[700],
-                                              ),
-                                            );
-                                          }).toList(),
-                                    ),
-                                  ),
-                                ),
-                            ],
-                          ),
-                        ),
-                      );
-                    }),
-                  );
-                }),
-              ),
-            ),
-            SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(9, (i) {
-                String num = (i + 1).toString();
-                return GestureDetector(
-                  onTap: () => selectNumber(num),
-                  child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 4),
-                    width: 36,
-                    height: 36,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white,
-                    ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      num,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                );
-              }),
-            ),
-            SizedBox(height: 16),
-            Row(
+    ),
+      body: SingleChildScrollView(
+        child: Container(
+          width: screenWidth,
+          height: MediaQuery.of(context).size.height,
+          decoration: BoxDecoration(gradient: gradient),
+          child: Center(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                IconButton(
-                  icon: Icon(
-                    LucideIcons.pencil,
-                    color: pencilMode ? Colors.purple[200] : Colors.white,
+                Text(
+                  "MindMend",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
                   ),
-                  onPressed: togglePencil,
                 ),
-                IconButton(
-                  icon: Icon(LucideIcons.eraser, color: Colors.white),
-                  onPressed: erase,
+                Text(
+                  "Sudoku",
+                  style: TextStyle(color: Colors.white70, fontSize: 18),
                 ),
-                IconButton(
-                  icon: Icon(LucideIcons.undo, color: Colors.white),
-                  onPressed: undo,
+                SizedBox(height: 20),
+                Container(
+                  width: gridSize,
+                  height: gridSize,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(blurRadius: 6, color: Colors.black26),
+                    ],
+                  ),
+                  child: Column(
+                    children: List.generate(9, (row) {
+                      return Row(
+                        children: List.generate(9, (col) {
+                          bool isSelected =
+                              selectedRow == row && selectedCol == col;
+                          bool isConflictCell =
+                              board[row][col] != '' &&
+                              isConflict(row, col, board[row][col]);
+                          return GestureDetector(
+                            onTap: () => selectCell(row, col),
+                            child: Container(
+                              width: cellSize,
+                              height: cellSize,
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  top: BorderSide(
+                                    color: Colors.black,
+                                    width: row % 3 == 0 ? 1.5 : 0.5,
+                                  ),
+                                  left: BorderSide(
+                                    color: Colors.black,
+                                    width: col % 3 == 0 ? 1.5 : 0.5,
+                                  ),
+                                  right: BorderSide(
+                                    color: Colors.black,
+                                    width: (col + 1) % 3 == 0 ? 1.5 : 0.5,
+                                  ),
+                                  bottom: BorderSide(
+                                    color: Colors.black,
+                                    width: (row + 1) % 3 == 0 ? 1.5 : 0.5,
+                                  ),
+                                ),
+                                color:
+                                    isConflictCell
+                                        ? Colors.red[100]
+                                        : isSelected
+                                        ? Colors.purple[100]
+                                        : Colors.white,
+                              ),
+                              child: Stack(
+                                children: [
+                                  Center(
+                                    child: Text(
+                                      board[row][col],
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color:
+                                            fixedCells[row][col]
+                                                ? Colors.black
+                                                : Colors.blue,
+                                      ),
+                                    ),
+                                  ),
+                                  if (board[row][col] == '' &&
+                                      notes[row][col].isNotEmpty)
+                                    Padding(
+                                      padding: const EdgeInsets.all(4.0),
+                                      child: Align(
+                                        alignment: Alignment.topLeft,
+                                        child: Wrap(
+                                          spacing: 2,
+                                          runSpacing: 2,
+                                          children:
+                                              notes[row][col].map((note) {
+                                                return Text(
+                                                  note,
+                                                  style: TextStyle(
+                                                    fontSize: 10,
+                                                    color: Colors.grey[700],
+                                                  ),
+                                                );
+                                              }).toList(),
+                                        ),
+                                      ),
+                                    ),
+                                ],
+                              ),
+                            ),
+                          );
+                        }),
+                      );
+                    }),
+                  ),
+                ),
+                SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(9, (i) {
+                    String num = (i + 1).toString();
+                    return GestureDetector(
+                      onTap: () => selectNumber(num),
+                      child: Container(
+                        margin: EdgeInsets.symmetric(horizontal: 4),
+                        width: 36,
+                        height: 36,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white,
+                        ),
+                        alignment: Alignment.center,
+                        child: Text(
+                          num,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    );
+                  }),
+                ),
+                SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      icon: Icon(
+                        LucideIcons.pencil,
+                        color: pencilMode ? Colors.purple[200] : Colors.white,
+                      ),
+                      onPressed: togglePencil,
+                    ),
+                    IconButton(
+                      icon: Icon(LucideIcons.eraser, color: Colors.white),
+                      onPressed: erase,
+                    ),
+                    IconButton(
+                      icon: Icon(LucideIcons.undo, color: Colors.white),
+                      onPressed: undo,
+                    ),
+                  ],
                 ),
               ],
             ),
-          ],
+          ),
         ),
       ),
     );

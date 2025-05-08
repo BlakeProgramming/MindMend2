@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'activity_center.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:myapp/assets/MindMendBackgroundDesign.png';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
 
   @override
-  _SignInScreenState createState() => _SignInScreenState();
+  SignInScreenState createState() => SignInScreenState();
 }
 
-class _SignInScreenState extends State<SignInScreen> {
+class SignInScreenState extends State<SignInScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -18,15 +19,17 @@ class _SignInScreenState extends State<SignInScreen> {
     try {
       final UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
-      );
+            email: _emailController.text.trim(),
+            password: _passwordController.text.trim(),
+          );
 
       if (userCredential.user != null) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const ActivityCenter()),
-        );
+        if (mounted) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => ActivityCenter()),
+          );
+        }
       }
     } on FirebaseAuthException catch (e) {
       String message = 'An error occurred. Please try again.';
@@ -35,9 +38,11 @@ class _SignInScreenState extends State<SignInScreen> {
       } else if (e.code == 'wrong-password') {
         message = 'Incorrect password.';
       }
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(message)),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(message)));
+      }
     }
   }
 
@@ -47,53 +52,58 @@ class _SignInScreenState extends State<SignInScreen> {
 
     showDialog(
       context: context,
-      builder: (_) => AlertDialog(
-        title: const Text('Create Account'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: signUpEmailController,
-              decoration: const InputDecoration(labelText: 'New Email'),
+      builder:
+          (_) => AlertDialog(
+            title: const Text('Create Account'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: signUpEmailController,
+                  decoration: const InputDecoration(labelText: 'New Email'),
+                ),
+                const SizedBox(height: 10),
+                TextField(
+                  controller: signUpPassController,
+                  obscureText: true,
+                  decoration: const InputDecoration(labelText: 'New Password'),
+                ),
+              ],
             ),
-            const SizedBox(height: 10),
-            TextField(
-              controller: signUpPassController,
-              obscureText: true,
-              decoration: const InputDecoration(labelText: 'New Password'),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () async {
-              try {
-                await FirebaseAuth.instance.createUserWithEmailAndPassword(
-                  email: signUpEmailController.text.trim(),
-                  password: signUpPassController.text.trim(),
-                );
-                Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Account created! Please log in.'),
-                  ),
-                );
-              } on FirebaseAuthException catch (e) {
-                String errorMsg = 'Something went wrong.';
-                if (e.code == 'weak-password') {
-                  errorMsg = 'The password provided is too weak.';
-                } else if (e.code == 'email-already-in-use') {
-                  errorMsg = 'That email is already in use.';
-                }
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(errorMsg)),
-                );
-              }
-            },
-            child: const Text('Sign Up'),
+            actions: [
+              TextButton(
+                onPressed: () async {
+                  try {
+                    await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                      email: signUpEmailController.text.trim(),
+                      password: signUpPassController.text.trim(),
+                    );
+                    if (mounted) {
+                      Navigator.pop(context);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Account created! Please log in.'),
+                        ),
+                      );
+                    }
+                  } on FirebaseAuthException catch (e) {
+                    String errorMsg = 'Something went wrong.';
+                    if (e.code == 'weak-password') {
+                      errorMsg = 'The password provided is too weak.';
+                    } else if (e.code == 'email-already-in-use') {
+                      errorMsg = 'That email is already in use.';
+                    }
+                    if (mounted) {
+                      ScaffoldMessenger.of(
+                        context,
+                      ).showSnackBar(SnackBar(content: Text(errorMsg)));
+                    }
+                  }
+                },
+                child: const Text('Sign Up'),
+              ),
+            ],
           ),
-        ],
-      ),
     );
   }
 
@@ -104,19 +114,25 @@ class _SignInScreenState extends State<SignInScreen> {
         fit: StackFit.expand,
         children: [
           // Background image
-          Image.network('https://i.imgur.com/vCx8U5M.png', fit: BoxFit.cover),
+          // Image.network('https://i.imgur.com/JPOublB.png', fit: BoxFit.cover),
+          Positioned.fill(
+            child: Image.asset(
+              'MindMendBackgroundDesign.png',
+              fit: BoxFit.cover,
+            ),
+          ),
 
           // Overlay + content
           Container(
-            color: Colors.black.withOpacity(0.4), // Dark overlay
+            color: const Color.fromARGB(61, 0, 0, 0), // Dark overlay
             child: Center(
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.network(
-                      'https://i.imgur.com/gwjmwdY.png',  // Provided image link
-                      height: 75,  // Adjust the size as needed
+                      'https://i.imgur.com/gwjmwdY.png', // Provided image link
+                      height: 75, // Adjust the size as needed
                     ),
                     const SizedBox(height: 20),
                     _buildTextField('Email', _emailController),
@@ -176,7 +192,7 @@ class _SignInScreenState extends State<SignInScreen> {
           labelText: label,
           labelStyle: const TextStyle(color: Colors.black54),
           filled: true,
-          fillColor: Colors.white.withOpacity(0.8),
+          fillColor: Colors.white.withValues(),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
         ),
       ),
