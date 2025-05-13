@@ -272,6 +272,7 @@ void _showLayersPopup() {
                   Colors.pink,
                   Colors.brown,
                   Colors.grey,
+                  Colors.white
                 ].map((col) {
                   return GestureDetector(
                     onTap: () {

@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:myapp/journal.dart';
+import 'package:myapp/music.dart';
 import 'package:myapp/sudoku.dart';
 import 'gemini.dart';
 import 'gradient_theme.dart';
@@ -96,7 +98,14 @@ class _ActivityCenterState extends State<ActivityCenter> {
                                 );
                               },
                             ),
-                            _ActivityButton(label: 'Music', onTap: () {}),
+                            _ActivityButton(label: 'Music', onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => MusicScreen(),
+                                  ),
+                                );
+                            }),
                           ]),
                           const SizedBox(height: 30),
                           const Text(
@@ -108,7 +117,12 @@ class _ActivityCenterState extends State<ActivityCenter> {
                             _ActivityButton(
                               label: 'Journal',
                               onTap: () {
-                                // Navigator.push(context, MaterialPageRoute(builder: (context) => JournalScreen()));
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => JournalHomePage(),
+                                  ),
+                                );
                               },
                             ),
                             _ActivityButton(
