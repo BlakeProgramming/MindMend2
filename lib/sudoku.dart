@@ -214,18 +214,12 @@ class SudokuScreenState extends State<SudokuScreen> {
 
     return Scaffold(
       appBar: PreferredSize(
-      preferredSize: const Size.fromHeight(kToolbarHeight),
-      child: Container(
-        decoration: BoxDecoration(
-          gradient: gradient, // Your gradient here
-        ),
-        child: AppBar(
-          backgroundColor: Colors.transparent, // Needed to show the gradient
-          elevation: 0,
-          leading: BackToActivityCenterButton(), // 🟣 Custom back button
-        ),
+      preferredSize: const Size.fromHeight(kToolbarHeight),        child: AppBar(
+      backgroundColor: Color(0xFF7B60D1), // Needed to show the gradient
+      elevation: 0,
+      leading: BackToActivityCenterButton(), // 🟣 Custom back button
       ),
-    ),
+      ),
       body: SingleChildScrollView(
         child: Container(
           width: screenWidth,

@@ -4,6 +4,8 @@ import 'package:http/http.dart' as http;
 import 'secrets.dart'; // ✅ Secure API key storage
 import 'package:myapp/back_button_to_activity_center.dart';
 
+//Broken, fix later
+
 class GeminiChat extends StatefulWidget {
   const GeminiChat({super.key});
 
@@ -37,7 +39,7 @@ class _GeminiChatState extends State<GeminiChat> {
         {
           "parts": [
             {
-              "text: $userMessage  (ensure your response reflects that of a therapist. Do not let messages exceed 2500 characters. Do not repeat prompt before responding. If specifically asked, offer ways to help.)", // User message input
+              "text": "$userMessage  (ensure your response reflects that of a therapist. Do not let messages exceed 2500 characters. Do not repeat prompt before responding. If specifically asked, offer ways to help.)", // User message input
             },
           ],
         },
@@ -149,27 +151,31 @@ class _GeminiChatState extends State<GeminiChat> {
                         final msg = messages[index];
                         final isUser = msg["role"] == "user";
                         return Align(
-                          alignment: isUser
-                              ? Alignment.centerRight
-                              : Alignment.centerLeft,
+                          alignment:
+                              isUser
+                                  ? Alignment.centerRight
+                                  : Alignment.centerLeft,
                           child: Container(
                             margin: const EdgeInsets.symmetric(vertical: 6),
                             padding: const EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 14),
+                              vertical: 10,
+                              horizontal: 14,
+                            ),
                             decoration: BoxDecoration(
-                              color: isUser
-                                  ? Colors.purple[200]
-                                  : Colors.white.withValues(),
+                              color:
+                                  isUser
+                                      ? Colors.purple[200]
+                                      : Colors.white.withValues(),
                               borderRadius: BorderRadius.only(
                                 topLeft: const Radius.circular(16),
                                 topRight: const Radius.circular(16),
                                 bottomLeft: Radius.circular(isUser ? 16 : 0),
-                                bottomRight:
-                                    Radius.circular(isUser ? 0 : 16),
+                                bottomRight: Radius.circular(isUser ? 0 : 16),
                               ),
                             ),
                             child: Text(
-                              msg["text"]?.trim() ?? "", // 🔧 Trim to remove extra spacing
+                              msg["text"]?.trim() ??
+                                  "", // 🔧 Trim to remove extra spacing
                               style: const TextStyle(
                                 fontSize: 16,
                                 color: Colors.black87,
@@ -211,7 +217,10 @@ class _GeminiChatState extends State<GeminiChat> {
                             shape: BoxShape.circle,
                           ),
                           child: IconButton(
-                            icon: const Icon(Icons.send, color: Colors.deepPurple),
+                            icon: const Icon(
+                              Icons.send,
+                              color: Colors.deepPurple,
+                            ),
                             onPressed: () => _sendMessage(_controller.text),
                           ),
                         ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ArtStudioApp extends StatelessWidget {
+/*class ArtStudioApp extends StatelessWidget {
   const ArtStudioApp({super.key});
 
 
@@ -13,7 +13,7 @@ class ArtStudioApp extends StatelessWidget {
       home: const ArtCanvas(),
     );
   }
-}
+} */
 
 
 class ColoredPoint {
@@ -96,126 +96,124 @@ void _showLayersPopup() {
     context: context,
     builder: (ctx) => StatefulBuilder(
       builder: (ctx, setDialogState) {
-        return AlertDialog(
-          title: const Text('Layers'),
-          content: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // Show the layers with Move Up and Move Down functionality
-                for (int i = 0; i < _layers.length; i++)
-                  InkWell(
-                    onTap: () {
-                      setState(() => _currentLayerIndex = i);
-                      setDialogState(() {});
-                    },
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(vertical: 6),
-                      padding: const EdgeInsets.all(4),
-                      color: i == _currentLayerIndex
-                          ? Colors.blueGrey
-                          : Colors.black54,
-                      child: Row(
-                        children: [
-                          // Layer preview (assuming CustomPaint)
-                         // Container(
-                           // width: 50,
-                            //height: 50,
-                           // color: Colors.white,
-                           // child: CustomPaint(
-                             // painter: DrawingPainter(_layers[i]),
-                             // size: Size.infinite,
-                           // ),
-                          //),
-                          //const SizedBox(width: 8),
-                          Text(
-                            'Layer ${i + 1}', // Keeping the name unchanged
-                            style: const TextStyle(color: Colors.white),
-                          ),
-                          if (i == _currentLayerIndex)
-                            const Padding(
-                              padding: EdgeInsets.only(left: 8),
-                              child: Icon(Icons.check, color: Colors.green),
-                            ),
-                          // Move up button
-                          IconButton(
-                            icon: const Icon(Icons.arrow_upward),
-                            onPressed: i > 0
-                                ? () {
-                                    setState(() {
-                                      // Move the layer up in the list
-                                      final layer = _layers.removeAt(i);
-                                      _layers.insert(i - 1, layer);
-                                      _currentLayerIndex = i - 1; // Update current layer index
-                                    });
-                                    setDialogState(() {});
-                                  }
-                                : null,
-                          ),
-                          // Move down button
-                          IconButton(
-                            icon: const Icon(Icons.arrow_downward),
-                            onPressed: i < _layers.length - 1
-                                ? () {
-                                    setState(() {
-                                      // Move the layer down in the list
-                                      final layer = _layers.removeAt(i);
-                                      _layers.insert(i + 1, layer);
-                                      _currentLayerIndex = i + 1; // Update current layer index
-                                    });
-                                    setDialogState(() {});
-                                  }
-                                : null,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                const SizedBox(height: 16),
-                // Add and Remove Layer buttons
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          // Add a new empty layer
-                          _layers.add(<ColoredPoint>[]);
-                          _currentLayerIndex = _layers.length - 1;
-                        });
+        return Theme(
+          data: ThemeData.dark().copyWith(
+            elevatedButtonTheme: ElevatedButtonThemeData(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.deepPurple,
+                foregroundColor: Colors.white,
+              ),
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.deepPurpleAccent,
+              ),
+            ),
+            iconTheme: const IconThemeData(color: Colors.white70), dialogTheme: DialogThemeData(backgroundColor: const Color(0xFF2C2C2C)),
+          ),
+          child: AlertDialog(
+            title: const Text('Layers', style: TextStyle(color: Colors.white)),
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  for (int i = 0; i < _layers.length; i++)
+                    InkWell(
+                      onTap: () {
+                        setState(() => _currentLayerIndex = i);
                         setDialogState(() {});
                       },
-                      child: const Text('Add Layer'),
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(vertical: 6),
+                        padding: const EdgeInsets.all(4),
+                        color: i == _currentLayerIndex
+                            ? Colors.blueGrey
+                            : Colors.black54,
+                        child: Row(
+                          children: [
+                            Text(
+                              'Layer ${i + 1}',
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                            if (i == _currentLayerIndex)
+                              const Padding(
+                                padding: EdgeInsets.only(left: 8),
+                                child: Icon(Icons.check, color: Colors.green),
+                              ),
+                            IconButton(
+                              icon: const Icon(Icons.arrow_upward),
+                              onPressed: i > 0
+                                  ? () {
+                                      setState(() {
+                                        final layer = _layers.removeAt(i);
+                                        _layers.insert(i - 1, layer);
+                                        _currentLayerIndex = i - 1;
+                                      });
+                                      setDialogState(() {});
+                                    }
+                                  : null,
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.arrow_downward),
+                              onPressed: i < _layers.length - 1
+                                  ? () {
+                                      setState(() {
+                                        final layer = _layers.removeAt(i);
+                                        _layers.insert(i + 1, layer);
+                                        _currentLayerIndex = i + 1;
+                                      });
+                                      setDialogState(() {});
+                                    }
+                                  : null,
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                        if (_layers.length > 1) {
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
                           setState(() {
-                            _layers.removeLast();
-                            _currentLayerIndex =
-                                (_currentLayerIndex).clamp(0, _layers.length - 1);
+                            _layers.add(<ColoredPoint>[]);
+                            _currentLayerIndex = _layers.length - 1;
                           });
                           setDialogState(() {});
-                        }
-                      },
-                      child: const Text('Remove Layer'),
-                    ),
-                  ],
-                ),
-              ],
+                        },
+                        child: const Text('Add Layer'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          if (_layers.length > 1) {
+                            setState(() {
+                              _layers.removeLast();
+                              _currentLayerIndex = _currentLayerIndex.clamp(0, _layers.length - 1);
+                            });
+                            setDialogState(() {});
+                          }
+                        },
+                        child: const Text('Remove Layer'),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(ctx).pop(),
+                child: const Text('Close'),
+              ),
+            ],
           ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(ctx).pop(),
-              child: const Text('Close'),
-            ),
-          ],
         );
       },
     ),
   );
 }
+
 
 
 
@@ -377,37 +375,33 @@ void _showLayersPopup() {
                   padding: const EdgeInsets.symmetric(
                       horizontal: 12, vertical: 8),
                   child: Row(
-                    mainAxisAlignment:
-                        MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Text("MindMend - Art Studio",
-                          style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold)),
-                      Row(
-                        children: [
-                          Icon(Icons.settings,
-                              color: Colors.white),
-                          SizedBox(width: 16),
-                          Icon(Icons.close,
-                              color: Colors.white),
-                        ],
-                      )
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text("MindMend - Art Studio",
+                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
+                      IconButton(
+                        icon: const Icon(Icons.close, color: Colors.white),
+                        onPressed: () {
+                          if(context.mounted){
+                          Navigator.pop(context);
+                          }
+                        },
+                      ),
                     ],
                   ),
                 ),
 
 
-                // Subtitle
-                Container(
-                  alignment: Alignment.centerLeft,
-                  color: Colors.black,
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 12, vertical: 4),
-                  child: const Text("Username - New Artwork",
-                      style: TextStyle(
-                          fontSize: 14, color: Colors.grey)),
-                ),
+                // // Subtitle
+                // Container(
+                //   alignment: Alignment.centerLeft,
+                //   color: Colors.black,
+                //   padding: const EdgeInsets.symmetric(
+                //       horizontal: 12, vertical: 4),
+                //   child: const Text("Username - New Artwork",
+                //       style: TextStyle(
+                //           fontSize: 14, color: Colors.grey)),
+                // ),
 
 
                 // Canvas with all layers painted in order

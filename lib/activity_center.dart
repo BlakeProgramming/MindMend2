@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:myapp/sudoku.dart';
 import 'gemini.dart';
 import 'gradient_theme.dart';
+import 'Art_Studio.dart';
 
 class ActivityCenter extends StatefulWidget {
   const ActivityCenter({super.key});
@@ -75,7 +76,15 @@ class _ActivityCenterState extends State<ActivityCenter> {
                           const SizedBox(height: 10),
                           const SizedBox(height: 10),
                           _buildButtonWrap(context, [
-                            _ActivityButton(label: 'Art', onTap: () {}),
+                            _ActivityButton(label: 'Art', onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ArtCanvas(),
+                                  ),
+                                );
+                            }
+                            ),
                             _ActivityButton(
                               label: 'Puzzle',
                               onTap: () {
