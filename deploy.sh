@@ -22,8 +22,8 @@ fi
 echo "Confirmed on the main branch."
 
 # Step 2: Build the Flutter web app with the correct base href
-echo "Building the Flutter web app with base href /mindmend2/..."
-flutter build web --release --base-href="/mindmend2/" #change '/mindmend2/' to the name of the github repo of your project
+echo "Building the Flutter web app with base href /M/..M"
+flutter build web --release --base-href="/MindMend2/" #change '/M/' Mo the name of the github repo of your project
 
 # Step 3: Verify the build was successful
 if [ ! -d "build/web" ]; then
@@ -81,4 +81,4 @@ git checkout main
 rm -rf "$TEMP_DIR"
 echo "Temporary directory cleaned up."
 
-echo "Deployment complete! Visit: https://blakeprogramming.github.io/mindmend2/" #change to your username in the link
+echo "Deployment complete! Visit: https://blakeprogramming.github.io/M/" Mchange to your username in the link
