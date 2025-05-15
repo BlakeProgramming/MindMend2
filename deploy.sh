@@ -81,4 +81,4 @@ git checkout main
 rm -rf "$TEMP_DIR"
 echo "Temporary directory cleaned up."
 
-echo "Deployment complete! Visit: https://blakeprogramming.github.io/M/" Mchange to your username in the link
+echo "Deployment complete! Visit: https://blakeprogramming.github.io/MindMend2/"
