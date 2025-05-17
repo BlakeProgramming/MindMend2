@@ -114,13 +114,13 @@ class SignInScreenState extends State<SignInScreen> {
         fit: StackFit.expand,
         children: [
           // Background image
-          // Image.network('https://i.imgur.com/JPOublB.png', fit: BoxFit.cover),
-          Positioned.fill(
-            child: Image.asset(
-              'MindMendBackgroundDesign.png',
-              fit: BoxFit.cover,
-            ),
-          ),
+          Image.network('https://i.imgur.com/JPOublB.png', fit: BoxFit.cover),
+          // Positioned.fill(
+          //   child: Image.asset(
+          //     'MindMendBackgroundDesign.png',
+          //     fit: BoxFit.cover,
+          //   ),
+          // ),
 
           // Overlay + content
           Container(

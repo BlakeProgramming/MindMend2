@@ -12,7 +12,7 @@ class MusicScreen extends StatefulWidget {
 
 class _MusicScreenState extends State<MusicScreen> {
   double _currentPosition = 0.0;
-  double _totalDuration = 300.0; // Example duration (5 minutes)
+  final double _totalDuration = 300.0; // Example duration (5 minutes)
   bool _isPlaying = false;
 
 
@@ -113,8 +113,8 @@ class _MusicScreenState extends State<MusicScreen> {
             // Add to Playlist Button
             ElevatedButton(
               onPressed: () {},
-              child: const Text('Add to Playlist'),
               style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple),
+              child: const Text('Add to Playlist'),
 
 
             ),

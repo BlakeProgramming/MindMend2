@@ -3,6 +3,8 @@ import 'data.dart';
 
 
 class JournalHomePage extends StatefulWidget {
+  const JournalHomePage({super.key});
+
   @override
   _JournalHomePageState createState() => _JournalHomePageState();
 }
@@ -140,7 +142,7 @@ class NewEntryPage extends StatefulWidget {
   final JournalEntry? entryToEdit;
 
 
-  NewEntryPage({this.entryToEdit});
+  const NewEntryPage({super.key, this.entryToEdit});
 
 
   @override
@@ -236,7 +238,7 @@ class EntryViewPage extends StatefulWidget {
   final JournalEntry entry;
 
 
-  EntryViewPage({required this.entry});
+  const EntryViewPage({super.key, required this.entry});
 
 
   @override
